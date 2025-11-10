@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # Hộp 1: Database MySQL
+  mysql_db:
+    image: mysql:8.0
+    container_name: mysql_tedishop
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysecretpassword # Mật khẩu của MySQL
+      MYSQL_DATABASE: tedishop          # Tên database
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306" 
+
+  # Hộp 2: Database MongoDB
+  mongo_db:
+    image: mongo
+    container_name: mongo_tedishop
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017" 
+
+  # Hộp 3: Backend (Node.js)
+  backend:
+    build: ./server 
+    container_name: backend_tedishop
+    restart: always
+    ports:
+      - "5000:5000" 
+    volumes:
+      - ./server:/app 
+      - /app/node_modules # <-- Dòng sửa lỗi
+    env_file:
+      - ./server/.env 
+    depends_on: 
+      - mysql_db
+      - mongo_db
+
+  # Hộp 4: Frontend (React)
+  frontend:
+    build: ./client 
+    container_name: frontend_tedishop
+    restart: always
+    ports:
+      - "5173:5173" 
+    volumes:
+      - ./client:/app
+      - /app/node_modules # <-- Dòng sửa lỗi
+    depends_on:
+      - backend
+
+# SỬA LẠI INDENT (THỤT VÀO) Ở ĐÂY
+volumes: 
+  mysql_data:
+  mongo_data:

@@ -1,0 +1,44 @@
+// server/prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique // Bắt buộc, dùng để đăng nhập
+  name      String?           // Tên (có thể có hoặc không)
+  password  String            // Bắt buộc, lưu mật khẩu đã hash
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id       String    @id @default(cuid())
+  name     String
+  slug     String    @unique
+  products Product[] // Quan hệ: 1 Category có nhiều Products
+}
+
+// ... (User và Category giữ nguyên) ...
+
+model Product {
+  id         String   @id @default(cuid())
+  name       String
+  imageUrl   String   @db.Text
+  oldPrice   String
+  newPrice   String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  isHot      Boolean  @default(false)
+  
+  description String?  @db.Text // <-- BẠN CẦN THÊM DÒNG NÀY
+
+  categoryId String   // Khóa ngoại
+  category   Category @relation(fields: [categoryId], references: [id])
+}

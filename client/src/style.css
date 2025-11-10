@@ -1,0 +1,48 @@
+/* client/src/style.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-900; /* <-- ĐỔI LẠI SANG NỀN XANH ĐẬM */
+  }
+}
+/* client/src/style.css */
+
+/* ... (Các CSS khác của bạn) ... */
+
+/* CSS Tùy chỉnh cho ảnh trong phần mô tả */
+.prose img {
+  max-width: 80%; /* Giảm chiều rộng tối đa xuống 80% */
+  height: auto;    /* Giữ tỷ lệ */
+  display: block;  /* Để căn giữa được */
+  margin-left: auto;   /* Căn giữa ảnh */
+  margin-right: auto;  /* Căn giữa ảnh */
+  
+  /* --- THÊM CÁC DÒNG SAU ĐỂ "KHÔNG BỊ THÔ" --- */
+  
+  /* 1. Bo tròn góc (nhiều hơn một chút) */
+  border-radius: 12px; 
+  
+  /* 2. Thêm đổ bóng (Shadow) để ảnh "nổi" lên */
+  /* Đây là bóng mờ màu trắng nhẹ, phù hợp với nền tối */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  
+  /* 3. Thêm viền mỏng (để tách biệt ảnh khỏi nền) */
+  border: 1px solid #475569; /* Màu viền slate-600 */
+  
+  /* 4. Khoảng cách */
+  margin-top: 24px;   
+  margin-bottom: 24px; 
+}
+
+/* Tùy chỉnh gạch đầu dòng (giữ nguyên) */
+.prose ul {
+  list-style-type: disc; /* Dùng chấm tròn */
+  padding-left: 20px;
+}
+.prose ul li {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}

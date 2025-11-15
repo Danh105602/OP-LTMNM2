@@ -16,3 +16,4 @@ ALTER TABLE `Product` DROP COLUMN `description`,
 -- AlterTable
 ALTER TABLE `User` DROP COLUMN `username`,
     ADD COLUMN `name` VARCHAR(191) NULL;
+-- -- -- -- -- 

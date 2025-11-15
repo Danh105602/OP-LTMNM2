@@ -1,4 +1,4 @@
-// client/src/components/layout/Navbar.tsx
+import { useState } from "react";
 import { 
   Search, 
   ShoppingBag, 
@@ -18,11 +18,10 @@ type NavbarProps = {
 };
 
 export default function Navbar({ totalCartItems }: NavbarProps) {
-  
   const { isLoggedIn, user, logout } = useAuthStore();
+  const [openCategory, setOpenCategory] = useState(false);
 
   return (
-    // ĐỔI LẠI SANG DARK MODE (slate-900)
     <header className="bg-slate-900 text-gray-300 py-4 shadow-md sticky top-0 z-50">
       <div className="container mx-auto flex items-center justify-between px-4">
         
@@ -41,7 +40,6 @@ export default function Navbar({ totalCartItems }: NavbarProps) {
         </div>
 
         <div className="flex items-center space-x-4">
-          
           {isLoggedIn ? (
             <>
               <span className="text-gray-300 text-sm hidden md:block">
@@ -76,13 +74,72 @@ export default function Navbar({ totalCartItems }: NavbarProps) {
         </div>
       </div>
       
-      {/* ĐỔI LẠI SANG DARK MODE (slate-800) */}
-      <nav className="bg-slate-800 py-2 mt-4">
+      <nav className="bg-slate-800 py-2 mt-4 relative">
         <div className="container mx-auto flex items-center justify-between px-4 text-sm">
-          <div className="flex items-center space-x-2">
-            <Button className="flex items-center px-4 py-2 rounded-md bg-green-500 hover:bg-green-600 text-white">
+          <div className="flex items-center space-x-2 relative">
+            <Button
+              className="flex items-center px-4 py-2 rounded-md bg-green-500 hover:bg-green-600 text-white"
+              onClick={() => setOpenCategory(!openCategory)}
+            >
               <span className="mr-2">☰</span> Danh mục
             </Button>
+
+            {/* Dropdown Menu */}
+            {openCategory && (
+              <div className="absolute top-full left-0 mt-2 w-[700px] bg-slate-900 p-6 rounded-lg shadow-lg text-white z-50 flex justify-between">
+                
+                {/* Thể loại */}
+                <div>
+                  <h3 className="font-bold mb-2 text-purple-400">Thể Loại</h3>
+                  <ul className="space-y-1">
+                    <li>Game Mới Ra Mắt</li>
+                    <li>List Game 29k</li>
+                    <li>Hành Động</li>
+                    <li>Phiêu Lưu</li>
+                    <li>Thể Thao</li>
+                    <li>Nhập Vai (RPG)</li>
+                    <li>Chiến Thuật</li>
+                    <li>Kinh Dị</li>
+                    <li>Giải Trí (Indie)</li>
+                    <li>Giả Lập (Simulator)</li>
+                    <li>Thế Giới Mở</li>
+                    <li>Tay Cầm</li>
+                  </ul>
+                </div>
+
+                {/* Thương hiệu */}
+                <div>
+                  <h3 className="font-bold mb-2 text-purple-400">Thương hiệu</h3>
+                  <ul className="space-y-1">
+                    <li>Steam</li>
+                    <li>Xbox</li>
+                    <li>Ubisoft</li>
+                    <li>EA</li>
+                    <li>Netflix</li>
+                    <li>Canva</li>
+                    <li>Microsoft</li>
+                    <li>Discord</li>
+                  </ul>
+                </div>
+
+                {/* Tìm kiếm nhiều */}
+                <div>
+                  <h3 className="font-bold mb-2 text-purple-400">Tìm kiếm nhiều</h3>
+                  <ul className="space-y-1">
+                    <li>Game steam</li>
+                    <li>Xbox game pass</li>
+                    <li>Tài khoản Steam nhiều game</li>
+                    <li>Netflix</li>
+                    <li>Youtube premium</li>
+                    <li>Key win bản quyền</li>
+                    <li>Game ea sport</li>
+                  </ul>
+                  <Button className="mt-4 bg-green-500 hover:bg-green-600">Xem tất cả</Button>
+                </div>
+              </div>
+            )}
+
+            {/* Các link khác */}
             <Link to="/category/game-steam" className="px-3 py-2 hover:bg-slate-700 rounded-md flex items-center space-x-1">
               <Flame className="h-4 w-4 text-orange-400" />
               <span>Game Steam</span>
